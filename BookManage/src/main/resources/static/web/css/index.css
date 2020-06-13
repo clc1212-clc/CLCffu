@@ -1,0 +1,206 @@
+@charset "UTF-8";
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike,sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,caption, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    border: 0 none;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+* {
+    border: 0 none;
+    
+    padding: 0;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style-type: none;
+}
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: outside none none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote::before, blockquote::after, q::before, q::after {
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border:1px solid;
+}
+table tr ,table tr td{
+    border:1px solid;
+}
+.wrapper {
+    background-position: center center;
+    background-size: cover;
+    margin: 0 auto;
+    max-width: 1920px;
+    width: 100%;
+}
+.wrapper .header {
+    background: rgba(0, 0, 0, 0) url("../images/headerbg.png") repeat-x scroll 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    height: 70px;
+    line-height: 70px;
+    margin: 0 auto;
+    max-width: 1920px;
+    position: relative;
+    z-index: 1;
+}
+
+.header .login a{
+	font-size: 15px;
+}
+
+.header .login .a-withpic {
+    background: rgba(0, 0, 0, 0) url("../images/mylibrary.png") no-repeat scroll left center;
+    color: #ffffff;
+    float: left;
+    margin-left: 30px;
+    padding-left: 50px;
+}
+
+.header .login .a-withoutpic {
+    color: #ffffff;
+    float: left;
+    margin-left: 17px;
+    padding-left: 15px;
+}
+
+.header .nav {
+    float: right;
+}
+.nav li {
+    float: left;
+    width: 130px;
+}
+.nav li a {
+    color: #ffffff;
+    display: block;
+    text-align: center;
+}
+.nav_selected {
+    background: rgba(0, 0, 0, 0) url("../images/headerbg.png") repeat-x scroll 0 0;
+}
+.wrapper .logo {
+    margin: 40px auto 0;
+    position: relative;
+    width: 451px;
+    z-index: 2;
+}
+.wrapper .logo a {
+    display: block;
+    position: relative;
+    z-index: 3;
+}
+.wrapper .logo a img {
+    display: block;
+    margin: 14px auto 65px;
+    position: relative;
+    z-index: 4;
+}
+.wrapper .index-search {
+    background: rgba(0, 0, 0, 0) url("../images/indexSearchbg.png") repeat-x scroll 0 0;
+    height: 80px;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+    width: 800px;
+    z-index: 4;
+}
+.wrapper .index-search .search {
+    background: #ffffff none repeat scroll 0 0;
+    height: 100%;
+}
+.selector-container {
+    cursor: pointer;
+    float: left;
+    height: 60px;
+    margin: 10px 0 10px 10px;
+    position: relative;
+    width: 200px;
+}
+.selector-content {
+    background: #dfdfdf url("../images/indexSelect-icon.png") no-repeat scroll 140px center;
+    bottom: 0;
+    display: block;
+    left: 0;
+    line-height: 50px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    vertical-align: middle;
+}
+.selector-content select {
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    width: 140px;
+}
+.selector-ul li {
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+}
+.search .search_text {
+    float: left;
+    font-size: 20px;
+    height: 60px;
+    line-height: 60px;
+    margin: 0;
+    text-indent: 10px;
+    width: 580px;
+}
+.search .search_button {
+    background: #814c3a url("../images/indexSearch-icon.png") no-repeat scroll 50px center;
+    border: 0 none;
+    color: #ffffff;
+    font-size: 24px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    text-indent: 35px;
+    width: 200px;
+}
+
+.wrapper .intoComplete {
+    background: rgba(0, 0, 0, 0) url("../images/intoCompleteBg.png") no-repeat scroll 0 0;
+    height: 80px;
+    margin: 64px auto 0;
+    padding-bottom: 13px;
+    position: relative;
+    width: 500px;
+    z-index: 4;
+}
+.intoComplete .into {
+    color: #ffffff;
+    display: block;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 80px;
+    text-align: center;
+}
+.btn-menu {
+	height: 500px;
+	text-align: center;
+	margin: 200px auto;
+}
+

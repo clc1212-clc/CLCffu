@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bootstrap Template</title>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css"
+	href="bootstrap3/css/bootstrap.css">
+<link rel="stylesheet" type="text/css"
+	href="bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
+<link rel="stylesheet" href="css/index.css" />
+
+<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+</head>
+<style>
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	background: #dfdfdf url(images/headerbg.jpg) center no-repeat;
+	background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+}
+
+.wrapper .header {
+	z-index: 6;
+}
+
+.nav li .childnav {
+	position: absolute;
+	width: 130px;
+	display: none;
+}
+
+.nav li:hover .childnav {
+	display: block;
+}
+
+.nav li .childnav li {
+	margin: 0px;
+	width: 100%;
+	line-height: 30px;
+	background: url("/images/headerbg.png") repeat-x scroll 0 0;
+}
+
+.nav li .childnav li a {
+	padding: 5px;
+}
+
+.guding {
+	width: 200px;
+	position: fixed;
+	top: 10%;
+	left: 3%;
+}
+
+.gudingr {
+	width: 200px;
+	position: fixed;
+	top: 10%;
+	right: 5%;
+	z-index: 10;
+}
+
+.reg-part {
+	width: 500px;
+	margin: 50px auto;
+}
+
+.reg-part label {
+	color: #00B2EE;
+}
+
+.footer {
+	height: 200px;
+}
+</style>
+<body>
+
+	<div class="wrapper">
+		<div class="header">
+			<div class="login">
+				<a class="a-withpic" href="#">注册</a> <a class="a-withoutpic"
+					href="#">登录</a>
+			</div>
+			<ul class="nav">
+				<li class="nav_155"><a href="/web/index.html">首页</a></li>
+			</ul>
+		</div>
+		<div class="contentbody" style="margin-top: 90px;">
+			<div class="logo">
+				<p>
+					<img src="images/logo.png" />
+				</p>
+			</div>
+		</div>
+		<p style="text-align: center; font-size: 30px; margin: 50px 0 0 0;">注册页面</p>
+		<div class="reg-part">
+			<form id="form-reg" class="form-horizontal">
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputUsername"
+							placeholder="请输入用户名" name="username">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control" id="inputPassword"
+							placeholder="请输入密码(6-20个字母、数字、下划线 )" name="password">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">性别</label>
+					<label style="margin-left: 20px;" class="radio-inline"> <input type="radio"
+						name="gender" id="inlineRadio1" value="1" checked="checked">
+						 男
+					</label> <label class="radio-inline"> <input type="radio"
+						name="gender" id="inlineRadio2" value="0">
+						 女
+					</label>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">电话</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputPhone"
+							placeholder="请输入电话号码" name="phone">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">邮箱</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputEmail" name="email"
+							placeholder="请输入邮箱">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button style="position: absolute; left: 33%;" type="button" class="btn btn-default" id="btn-reg">注册</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+</body>
+<script type="text/javascript" src="bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="bootstrap3/js/bootstrap.js"></script>
+<script type="text/javascript" src="bootstrap3/js/holder.js"></script>
+<script type="text/javascript" src="bootstrap3/js/html5shiv.min.js"></script>
+<script type="text/javascript" src="bootstrap3/js/css3-mediaqueries.js"></script>
+<script type="text/javascript" src="bootstrap3/js/respond.min.js"></script>
+<script type="text/javascript">
+	
+	var judge1 = false;
+	var judge2 = false;
+	var judge3 = false;
+	var judge4 = false;
+	$("#inputUsername").change(function(){
+		//用户名正则，4到16位（字母，数字，下划线，减号）
+		let uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
+		//输出 true
+		let username = $("#inputUsername").val();
+		judge1 = uPattern.test(username)
+		console.log(judge1);
+		
+		if(!judge1){
+			alert("用户名输入有误!4到16位（字母，数字，下划线，减号）");
+			$("#inputUsername").css({"outline":"solid 0.5px","outline-color":"red"});
+		}else{
+			$("#inputUsername").css({"outline":"0"});
+		}
+	});
+	
+	/* 密码正则 */
+	$("#inputPassword").change(function(){
+		let uPattern = /^(\w){6,20}$/; 
+		let password = $("#inputPassword").val();
+		judge2 = uPattern.test(password)
+		console.log(judge2);
+		
+		if(!judge2){
+			alert("密码格式输入有误!只能输入6-20个字母、数字、下划线  ");
+			$("#inputPassword").css({"outline":"solid 0.5px","outline-color":"red"});
+		}	else{
+			$("#inputPassword").css({"outline":"0"});
+		}
+			
+	});
+	
+	/* 电话正则 */
+	$("#inputPhone").change(function(){
+		let pPattern = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0-9]))\d{8}$/;
+		let phone = $("#inputPhone").val();
+		judge3 = pPattern.test(phone)
+		console.log(judge3);
+		
+		if(!judge3){
+			alert("电话格式输入有误!");
+			$("#inputPhone").css({"outline":"solid 0.5px","outline-color":"red"});
+		}	else{
+			$("#inputPhone").css({"outline":"0"});
+		}
+	});
+	
+	/* 邮箱正则 */
+	$("#inputEmail").change(function(){
+		let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+		let email = $("#inputEmail").val();
+		judge4 = ePattern.test(email)
+		console.log(judge4);
+		
+		if(!judge4){
+			alert("邮箱格式输入有误!");
+			$("#inputEmail").css({"outline":"solid 0.5px","outline-color":"red"});
+		} else{
+			$("#inputEmail").css({"outline":"0"});
+		}
+		
+	});
+	
+	$("#btn-reg").click(function(){
+		if(judge1 & judge2 & judge3 & judge4){
+			$.ajax({
+				"url":"/users/reg",
+				"data":$("#form-reg").serialize(),
+				"type":"post",
+				"dataType":"json",
+				"success":function(json){
+					alert("注册成功!");
+					location.href="/web/index.html";
+				}
+			});	
+			
+		} else{
+			alert("请完善信息!");
+		}
+	});
+	
+
+</script>
+</html>

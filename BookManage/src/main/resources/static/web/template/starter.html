@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bootstrap Template</title>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css"
+	href="../bootstrap3/css/bootstrap.css">
+<link rel="stylesheet" type="text/css"
+	href="../bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
+<link rel="stylesheet" href="../css/index.css" />
+<script src="../js/jquery-1.9.1.min.js" type="text/javascript"></script>
+</head>
+<style>
+body {
+	background: #dfdfdf url(../images/headerbg.jpg) center no-repeat;
+	background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+}
+
+.wrapper .header {
+	z-index: 6;
+}
+
+.nav li .childnav {
+	position: absolute;
+	width: 130px;
+	display: none;
+}
+
+.nav li:hover .childnav {
+	display: block;
+}
+
+.nav li .childnav li {
+	margin: 0px;
+	width: 100%;
+	line-height: 30px;
+	background: url("/images/headerbg.png") repeat-x scroll 0 0;
+}
+
+.nav li .childnav li a {
+	padding: 5px;
+}
+
+.guding {
+	width: 200px;
+	position: fixed;
+	top: 10%;
+	left: 3%;
+}
+
+.gudingr {
+	width: 200px;
+	position: fixed;
+	top: 10%;
+	right: 5%;
+	z-index: 10;
+}
+</style>
+<body>
+
+	<div class="wrapper">
+		<div class="header">
+			<div class="login">
+				<a href="http://opac.tylib.org/opac/reader/login">我的图书馆</a>
+			</div>
+			<ul class="nav">
+				<li class="nav_155"><a href="/web/category/155">首页</a></li>
+			</ul>
+		</div>
+		<div class="contentbody" style="margin-top: 90px;">
+			<div class="logo">
+				<a href="/web/complete"><img src="../images/logo.png"
+					/></a>
+			</div>
+			<div class="index-search">
+				<form action="" class="search">
+					<input type="text" name="" id="" class="search_text"
+						onkeydown="exhibitionKeyDown(event)" /> <input type="button"
+						class="search_button" value="检索" />
+				</form>
+			</div>
+		</div>
+		<div class="btn-menu">
+			<input href="success.html" type="button" class="btn btn-success" value="插入图书">
+			<button type="button" class="btn btn-success">（成功）Success</button>
+		</div>
+	</div>
+	<script src="../js/jquery-1.9.1.min.js" type="text/javascript"></script>
+</body>
+<script type="text/javascript" src="../bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="../bootstrap3/js/bootstrap.js"></script>
+<script type="text/javascript" src="../bootstrap3/js/holder.js"></script>
+<script type="text/javascript" src="../bootstrap3/js/html5shiv.min.js"></script>
+<script type="text/javascript"
+	src="../bootstrap3/js/css3-mediaqueries.js"></script>
+<script type="text/javascript" src="../bootstrap3/js/respond.min.js"></script>
+</html>

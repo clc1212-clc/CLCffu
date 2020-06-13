@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace属性：当前xml文件对应哪个接口文件 -->
+<mapper
+	namespace="com.myproject.BookManage.mapper.BorrowedMapper">
+	<!-- 配置SQL语句的节点对应的抽象方法 -->
+	<!-- 应该根据需要执行的SQL语句的种类选择节点 -->
+	<!-- id属性：抽象方法的名称 -->
+	
+	<resultMap type="com.myproject.BookManage.VO.BookEntityVO"
+		id="BookMapperVOEntity">
+		<id column="bid" property="bid"></id>
+		<result column="uid" property="uid"/>
+		<result column="title" property="title" />
+		<result column="type" property="type" />
+		<result column="author" property="author" />
+		<result column="press" property="press" />
+		<result column="borrowed_time" property="borrowedTime" />
+	</resultMap>
+	
+		<resultMap type="com.myproject.BookManage.entity.BorrowedEntity"
+		id="BorrowedEntityMapper">
+		<id column="bid" property="bid"></id>
+		<result column="uid" property="uid"/>
+		<result column="borrowed_time" property="borrowedTime" />
+		<result column="return_time" property="returnTime" />
+	</resultMap>
+	
+	
+	<!-- 根据图书id从借阅表中删除数据 -->
+	<!-- Integer deleteBookByBid(Integer bid) -->
+	<delete id="deleteBookByBid">
+		DELETE FROM
+			borrowed
+		WHERE
+			bid = #{bid}
+	</delete>
+	
+	<!-- 根据用户id查询用户已租借的书本数量 -->
+	<!-- Integer countByUid(Integer uid) -->
+	<select id="countByUid" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			borrowed
+		WHERE
+			uid = #{uid}
+	</select>
+
+	<!-- 根据用户id查询用户已租借的书的信息 -->
+	<!-- List<BookEntity> findBookByUid(Integer uid) -->
+	<select id="findBookByUid" resultMap="BookMapperVOEntity">
+		SELECT
+			*
+		FROM
+			borrowed
+		RIGHT JOIN
+			book
+		ON
+			borrowed.bid = book.bid
+		WHERE
+			uid = #{uid}
+		ORDER BY
+			book.bid
+	</select>
+	
+	<!-- 通过bid查询要借阅图书的信息 -->
+	<!-- List<BookEntity> findBookByBid(Integer bid) -->
+	<select id="findBookByBid" resultMap="BorrowedEntityMapper">
+		SELECT
+			*
+		FROM
+			borrowed 
+		WHERE
+			bid = #{bid}
+	</select>
+
+</mapper>

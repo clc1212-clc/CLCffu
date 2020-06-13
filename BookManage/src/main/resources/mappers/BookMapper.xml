@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace属性：当前xml文件对应哪个接口文件 -->
+<mapper namespace="com.myproject.BookManage.mapper.BookMapper">
+	<!-- 配置SQL语句的节点对应的抽象方法 -->
+	<!-- 应该根据需要执行的SQL语句的种类选择节点 -->
+	<!-- id属性：抽象方法的名称 -->
+	<resultMap type="com.myproject.BookManage.entity.BookEntity"
+		id="BookMapperEntity">
+		<id column="bid" property="bid"></id>
+		<result column="title" property="title" />
+		<result column="type" property="type" />
+		<result column="author" property="author" />
+		<result column="press" property="press" />
+		<result column="is_broken" property="isBroken" />
+		<result column="is_borrowed" property="isBorrowed" />
+		<result column="return_time" property="returnTime" />
+	</resultMap>
+
+
+	<!-- 添加图书至库中 -->
+	<!-- Integer addBook(BookEntity book) -->
+	<insert id="insertBook">
+		INSERT INTO
+			book (
+				title, type, author, press, is_broken
+			)
+		VALUES (
+			#{title}, #{type}, #{author}, #{press}, #{isBroken}
+		)
+	</insert>
+
+	<!-- 从库中根据书本id bid进行书本的删除 -->
+	<!-- Integer deleteByBid(Integer bid) -->
+	<delete id="deleteByBid">
+		DELETE FROM
+			book
+		WHERE
+			bid = #{bid}
+	</delete>
+
+	<!-- 图书信息的修改 -->
+	<!-- Integer updateBook(BookEntity book) -->
+	<update id="updateBook">
+		UPDATE
+			book
+		SET
+			title=#{title}, author=#{author},
+			type=#{type}, press=#{press}
+		WHERE
+			bid = #{bid}
+	</update>
+	
+	<!-- 改变图书为租借状态 -->
+	<!-- Integer changeBookStatetoBorrowed(Integer bid) -->
+	<update id="changeBookStatetoBorrowed">
+		UPDATE
+			book
+		SET
+			is_borrowed = 1
+		WHERE
+			bid = #{bid}
+	</update>
+	
+	<!-- 改变图书为未被租借状态 -->
+	<!-- Integer changeBookStatetoFree(Integer bid) -->
+	<update id="changeBookStatetoFree">
+		UPDATE
+			book
+		SET
+			is_borrowed = 0
+		WHERE
+			bid = #{bid}
+	</update>
+
+	<!-- 根据借书人的id增加他借书的书的id与借书人的id -->
+	<!-- Integer beBorrowedByUid(
+			@Param("bid") Integer bid, 
+			@Param("uid") Integer uid,
+			@Param("borrowedTime") Date borrowedTime) -->
+	<insert id="beBorrowedByUid">
+		INSERT INTO
+			borrowed(
+				uid, bid, borrowed_time
+			)
+		VALUES(
+				#{uid}, #{bid}, #{borrowedTime}
+			)
+	</insert>
+
+	<!-- 模糊查询现有的图书数量 -->
+	<!-- Integer fuzzyCountBooks(String keyword) -->
+	<select id="fuzzyCountBooks" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			book
+		WHERE
+			title
+		LIKE
+			concat('%',#{keyword},'%')
+		ORDER BY
+			bid
+	</select>
+
+	<!-- 查询现有的图书数量 -->
+	<!-- Integer countBooks() -->
+	<select id="countBooks" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			book
+		ORDER BY
+			bid
+	</select>
+
+	<!-- 根据图书id查询图书的所有信息 -->
+	<!-- BookEntity findByTitle(String title) -->
+	<select id="findByTitle" resultMap="BookMapperEntity">
+		SELECT
+			*
+		FROM
+			book
+		WHERE
+			title = #{title}
+	</select>
+	
+	<!-- 根据图书id查询图书的所有信息 -->
+	<!-- BookEntity findInfoByBid(Integer bid) -->
+	<select id="findInfoByBid" resultMap="BookMapperEntity">
+		SELECT
+			*
+		FROM
+			book
+		WHERE
+			bid = #{bid}
+	</select>
+	
+	<!-- 查询所有的图书信息 -->
+	<!-- List<BookEntity> findBooks() -->
+	<select id="findBooks" resultMap="BookMapperEntity">
+		SELECT
+			*
+		FROM
+			book
+	</select>
+	
+	<!-- 查询目前最新一本书的id -->
+	<!-- Integer findMaxBid() -->
+	<select id="findMaxBid" resultType="java.lang.Integer">
+		SELECT
+			max(bid)
+		FROM
+			book
+	</select>
+	
+	
+	<!-- 通过bid查询要借阅图书的信息 -->
+	<!-- BookEntity findBookByBid(Integer bid) -->
+	<select id="findBookByBid" resultMap="BookMapperEntity">
+		SELECT
+			title, type, author, press
+		FROM
+			borrowed 
+		WHERE
+			bid = #{bid}
+	</select>
+
+	<!-- 通过图书们的id得到图书们的信息 -->
+	<!-- List<BookEntity> findConfirmedBook(Integer[] bids) -->
+	<select id="findConfirmedBook" resultMap="BookMapperEntity">
+		SELECT
+			bid, title, type, author, press
+		FROM
+			book
+		WHERE
+			bid 
+		IN
+			<foreach collection="array" item="bid" separator=","
+				open="(" close=")">
+				#{bid}
+			</foreach>
+			
+	</select>
+	
+	<!-- 通过关键字模糊查询图书信息 -->
+	<!-- List<BookEntity> searchByKeyword(String keyword) -->
+	<select id="searchByKeyword" resultMap="BookMapperEntity">
+		SELECT
+			*
+		FROM
+			book
+		WHERE
+			title
+		LIKE
+			concat('%',#{keyword},'%')
+	</select>
+	
+	<!-- 通过每页显示的数目以及跳过的页数查询书本信息 -->
+	<!-- List<BookEntity> findBookByPage
+	(Integer offset, Integer recordCountPerPage) -->
+	<select id="findBookByPage" resultMap="BookMapperEntity">
+		SELECT
+			*
+		FROM
+			book
+		ORDER BY
+			bid
+		LIMIT
+			#{offset},#{recordCountPerPage}
+		
+	</select>
+	
+	<!-- 分页模糊查询 -->
+	<!-- List<BookEntity> "searchPageByKeyword"(
+			@Param("keyword")String keyword,
+			@Param("offset") Integer offset, 
+			@Param("recordCountPerPage") Integer recordCountPerPage) -->	
+	<select id="searchPageByKeyword" resultMap="BookMapperEntity">
+		SELECT
+			*
+		FROM
+			book
+		WHERE
+			title
+		LIKE
+			concat('%',#{keyword},'%')
+		ORDER BY
+			bid
+		LIMIT
+			#{offset},#{recordCountPerPage}
+		
+	</select>
+
+</mapper>

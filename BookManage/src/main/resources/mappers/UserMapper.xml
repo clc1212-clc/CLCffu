@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace属性：当前xml文件对应哪个接口文件 -->
+<mapper namespace="com.myproject.BookManage.mapper.UserMapper">
+	<!-- 配置SQL语句的节点对应的抽象方法 -->
+	<!-- 应该根据需要执行的SQL语句的种类选择节点 -->
+	<!-- id属性：抽象方法的名称 -->
+	<resultMap type="com.myproject.BookManage.entity.UserEntity" id="UserMapperEntity">
+		<id column="uid" property="uid"></id>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="gender" property="gender"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="is_manager" property="isManager"/>
+	</resultMap>
+
+
+	<!-- 将用户数据插入到数据表中 -->
+	<!-- Integer insert(UserEntity user) -->
+	<insert id="insert">
+		INSERT INTO
+			user(
+				username, password, salt, 
+				gender, phone, email, is_manager
+			)
+			VALUES(
+				#{username}, #{password}, #{salt}, 
+				#{gender}, #{phone}, #{email}, #{isManager}
+			)
+	</insert>
+	
+	<!-- 通过用户的id和新密码旧密码进行密码修改 -->
+	<!-- Integer updatePassword(
+			@Param("uid") Integer uid,
+			@Param("newPassword") String newPassword,
+			@Param("oldPassword") String oldPassword) -->
+	<update id="updatePassword">
+		UPDATE
+			user
+		SET
+			password = #{newPassword}
+		WHERE 
+			uid = #{uid} and password = #{oldPassword}
+	</update>
+	
+	<!-- 通过uid更改用户的信息 -->
+	<!-- Integer updateUserInfo(@Param("uid")Integer uid, 
+						   @Param("user") UserEntity user) -->
+	<update id="updateUserInfo">
+		UPDATE
+			user
+		SET
+			gender = #{user.gender}, 
+			phone = #{user.phone}, 
+			email = #{user.email}
+		WHERE
+			uid = #{uid}
+	</update>
+	
+	<!-- 通过用户名将用户改成管理员 -->
+	<!-- Integer updateManageByUsername(String username) -->
+	<update id="updateManageByUsername">
+		UPDATE
+			user
+		SET
+			is_manager = 1
+		WHERE
+			username = #{username}
+	</update>
+	
+	<!-- 通过用户id将用户取消管理员 -->
+	<!-- Integer updateNoManageByUid(Integer uid) -->
+	<update id="updateNoManageByUid">
+		UPDATE
+			user
+		SET
+			is_manager = 0
+		WHERE
+			uid = #{uid}
+	</update>
+	
+	<!-- 通过用户名查找用户信息 -->
+	<!-- UserEntity findByUsername(String username) -->
+	<select id="findByUsername" resultMap="UserMapperEntity">
+		SELECT
+			*
+		FROM
+			user
+		WHERE
+			username = #{username}
+	</select>
+	
+	<!-- 通过用户id查找用户信息 -->
+	<!-- UserEntity findByUid(Integer uid)-->
+	<select id="findByUid" resultMap="UserMapperEntity">
+		SELECT
+			*
+		FROM
+			user
+		WHERE
+			uid = #{uid}
+	</select>
+	
+	<!-- 通过用户名和密码查询用户 -->
+	<!-- UserEntity findByUsernameAndPassword(
+			@Param("username") String username, 
+			@Param("password") String password) -->
+	<select id="findByUsernameAndPassword" resultMap="UserMapperEntity">
+		SELECT
+			uid, username
+		FROM
+			user
+		WHERE
+			username = #{username} and password = #{password}
+	</select>
+	
+	<!-- 查询出所有管理员的信息 -->
+	<!-- List<UserEntity> findManager() -->
+	<select id="findManager" resultMap="UserMapperEntity">
+		SELECT
+			*
+		FROM
+			user
+		WHERE
+			is_manager = 1
+	</select>
+	
+
+</mapper>

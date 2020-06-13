@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>图书列表</title>
+<!--视口/视觉窗口标签:meta, 宽度=设备宽度，初始化缩放比例1， 是否允许用户缩放页面:no -->
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=no" />
+<!-- 扩展对低版本IE支持,开启IE兼容模式-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Bootstrap核心css -->
+<link rel="stylesheet" type="text/css"
+	href="bootstrap3/css/bootstrap.css">
+<!-- 字体图标 -->
+<link rel="stylesheet" type="text/css"
+	href="bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
+<link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/booklist.css" />
+<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+</head>
+<style>
+body {
+	background: #dfdfdf url(images/view.jpg) center no-repeat;
+	background-size : 100% 100%;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+
+.wrapper .header {
+	z-index: 6;
+}
+
+.nav li .childnav {
+	position: absolute;
+	width: 130px;
+	display: none;
+}
+
+.nav li:hover .childnav {
+	display: block;
+}
+
+.nav li .childnav li {
+	margin: 0px;
+	width: 100%;
+	line-height: 30px;
+	background: url("images/headerbg.png") repeat-x scroll 0 0;
+}
+
+.nav li .childnav li a {
+	padding: 5px;
+}
+
+.guding {
+	width: 200px;
+	position: fixed;
+	top: 10%;
+	left: 3%;
+}
+
+.gudingr {
+	width: 200px;
+	position: fixed;
+	top: 10%;
+	right: 5%;
+	z-index: 10;
+}
+
+.login{
+	display: inline;
+}
+</style>
+<body>
+	<div class="wrapper">
+		<div class="header">
+			<div class="login">
+				<a href="index.html">我的图书馆</a>
+			</div>
+			<ul class="nav">
+				<li class="nav_155"><a href="/web/index.html">首页</a></li>
+			</ul>
+		</div>
+		<div class="contentbody" style="margin-top: 90px;">
+			<div class="logo">
+				<a href="#"><img src="images/logo.png" /></a>
+			</div>
+		</div>
+		<form id="borrowed-list" action="confirmBorrow.html" method="get">
+		<div class="book-list" style="">
+			<table id="tab" class="book-table table-responsive table-hover">
+				<caption class="book-list-head">图 书 列 表
+				<input id="book-borrow" style="position:absolute; left:50px; font-size: 14px;" type="button" value="开始租借" class="btn-xs btn-warning">
+				<input type="submit" class="btn-xs btn-success" id="confirm-borrow" value="确认租借" style="position:absolute; right:50px; font-size: 14px;">
+				</caption>
+				<tr bgcolor="#D1EEEE" class="table-list-head">
+					<th class="choose"></th>
+					<th class="book-no">编号</th>
+					<th>名称</th>
+					<th>类别</th>
+					<th>作者</th>
+					<th>出版社</th>
+					<th class="book-update" hidden= "true">编辑</th>
+				</tr>
+				<tbody id="table-list-head">
+				</tbody>
+			</table>
+			<div class="col-md-offset-1 col-md-10">
+				<p id="pager" align="center">
+					<a href="#">上一页</a>
+					<a href="#">1</a>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">下一页</a>
+				</p>
+			</div>
+		</div>
+		</form>
+	</div>
+	<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+
+</body>
+<!-- jQuery 1.12.4 依赖 -->
+<script type="text/javascript" src="bootstrap3/jquery.min.js"></script>
+<!-- Bootstrap核心js -->
+<script type="text/javascript" src="bootstrap3/js/bootstrap.js"></script>
+<!-- 图片占位，解决低版本IE不支持圆角的问题-->
+<script type="text/javascript" src="bootstrap3/js/holder.js"></script>
+<!-- 引入T5和C3的js函数库，支持旧版浏览器-->
+<script type="text/javascript" src="bootstrap3/js/html5shiv.min.js"></script>
+<script type="text/javascript" src="bootstrap3/js/respond.min.js"></script>
+<script type="text/javascript" src="js/jquery-getUrlParam.js"></script>
+<script type="text/javascript">
+
+
+let page = $.getUrlParam("page");
+console.log("get url param, page=" + page);
+
+$(document).ready(function() {
+	showPageList();
+	$.ajax({
+		"url":"/users/checkManage",
+		"type":"get",
+		"dataType":"json",
+		"success":function(json){
+			console.log(json.data.isManage);
+			if(json.data.isManage == 0){
+				$(".book-update").hide();
+				$(".book-update").empty();
+				$("#line-update").hide();
+				$("#line-update").empty();
+				
+			}
+			$(".login").empty();
+			
+			let html = "<span style=' color: white; margin-left: 20px;'>欢迎您!!  <a href=update.html>#{username}</a></span>";
+			html = html.replace(/#{username}/g, json.data.username)
+			let logout = "<span><a onclick='logout()' style='margin-left: 10px;'> 注销</a></span>"; 
+				
+			$(".login").append(html);
+				$(".login").append(logout);
+			
+			
+		}
+	});	
+});
+
+$("#book-borrow").click(function(){
+	alert("开始租借!");
+	$(".choosebox0").toggle();
+});
+
+function showPageList() {
+	if (page == null || isNaN(page)) {
+		page = 1;
+	}
+	console.log("page=" + page);
+	$("#table-list-head").empty();
+	$.ajax({
+		"url":"/books/searchPage",
+		"data":location.search.substr(1),
+		"type":"get",
+		"dataType":"json",
+		"success":function(json) {
+			console.log("sadasd=" + json.data.maxPage); 
+			if(json.data.maxPage == null){
+				$("#pager").empty();
+				let html = '<p style="text-align: center;">查询列表为空!</p>';
+				$("#pager").append(html);
+				return;
+			}
+			console.log("keyword=" + json.data.keyword);
+			let list = json.data.listData;
+			console.log("count=" + list.length);
+			for (let i = 0; i < list.length; i++) {
+				console.log("bid=" + list[i].bid);
+				let html = '<tr>'
+					+ '<td><input class="choosebox#{isBorrowed}" name="bids" value=#{bid} type="checkbox"></td>'
+					+ '<td class="book-no" name="bid">#{bid}</td>'
+					+ '<td >#{title}</td>'
+					+ '<td>#{type}</td>'
+					+ '<td>#{author}</td>'
+					+ '<td>#{press}</td>'
+					+ '<td hidden="true" id="line-update" class="book-update"><a href="/web/bookInfoUpdate.html?bid=#{bid}" οnclick="ulrHtml(#{bid});" class="book-update btn btn-xs btn-info "><span class="fa fa-edit"></span> 修改</a>'
+					+ ' <a onclick="bookdelete(#{bid})" class="book-update btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>'
+					+ '</tr>'
+				
+					
+					html = html.replace(/#{bid}/g, list[i].bid)
+					html = html.replace(/#{title}/g, list[i].title)
+					html = html.replace(/#{type}/g, list[i].type)
+					html = html.replace(/#{author}/g, list[i].author)
+					html = html.replace(/#{press}/g, list[i].press)
+					html = html.replace(/#{bbid}/g, list[i].bid)
+					html = html.replace(/#{isBorrowed}/g,list[i].isBorrowed)
+					
+					$("#table-list-head").append(html);
+					$(".choosebox0").hide();
+					$(".choosebox1").hide();
+			}
+			
+			$("#pager").empty();
+			let pageHtml;
+			console.log(json.data.keyword);
+			if (json.data.currentPage == 1) {
+				pageHtml = ' <span style="color:#aaa;">上一页</span> ';
+			} else {
+				pageHtml = ' <a href="?page=' + (json.data.currentPage - 1) + '&keyword='+ json.data.keyword +'">上一页</a> ';
+			}
+			$("#pager").append(pageHtml);
+			
+			console.log("json.data.maxPage;:" + json.data.maxPage)
+			for (let i = json.data.minPage; i <= json.data.maxPage; i++) {
+				if (i == json.data.currentPage) {
+					pageHtml = ' <span style="color:#aaa;">' + i + '<span> ';
+				} else {
+					pageHtml = ' <a href="?page=' + i + '&keyword='+ json.data.keyword +'">' + i + '</a> ';
+				}
+				$("#pager").append(pageHtml);
+			}
+			
+			if (json.data.currentPage == json.data.maxPage) {
+				pageHtml = ' <span style="color:#aaa;">下一页</span> ';
+			} else {
+				pageHtml = ' <a href="?page=' + (json.data.currentPage + 1) + '&keyword='+ json.data.keyword +'">下一页</a> ';
+			}
+			$("#pager").append(pageHtml);
+		}
+	});
+}
+
+/* function showAllBooks(){
+	$("#table-list-head").empty();
+	$.ajax({
+		"url":"/books/showAllBooks",		
+		"type":"get",		
+		"dataType":"json",		
+		"success":function(json) {
+				let list = json.data;
+				console.log(list.length);
+				for (let i = 0;i < list.length;i++){
+					console.log("!!!!" + list[i].isBorrowed);
+					let html = '<tr>'
+					+ '<td><input class="choosebox#{isBorrowed}" name="bids" value=#{bid} type="checkbox"></td>'
+					+ '<td class="book-no" name="bid">#{bid}</td>'
+					+ '<td >#{title}</td>'
+					+ '<td>#{type}</td>'
+					+ '<td>#{author}</td>'
+					+ '<td>#{press}</td>'
+					+ '<td><a href="/web/bookInfoUpdate.html?bid=#{bid}" οnclick="ulrHtml(#{bid});" class="book-update btn btn-xs btn-info "><span class="fa fa-edit"></span> 修改</a>'
+					+ ' <a onclick="bookdelete(#{bid})" class="book-update btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>'
+					+ '</tr>'
+					
+					
+				html = html.replace(/#{bid}/g, list[i].bid)
+				html = html.replace(/#{title}/g, list[i].title)
+				html = html.replace(/#{type}/g, list[i].type)
+				html = html.replace(/#{author}/g, list[i].author)
+				html = html.replace(/#{press}/g, list[i].press)
+				html = html.replace(/#{bbid}/g, list[i].bid)
+				html = html.replace(/#{isBorrowed}/g,list[i].isBorrowed)
+				
+				
+				$("#table-list-head").append(html);
+				$(".choosebox0").hide();
+				$(".choosebox1").hide();
+				
+				
+			}
+		}
+	});
+} */
+
+function bookdelete(bid){
+	console.log("bid=" + bid);
+	let judge = confirm("确认删除?");
+	if(judge){
+		$.ajax({
+			"url":"/books/"+ bid + "/deleteBook",
+			"type":"post",		
+			"dataType":"json",		
+			"success":function(json) {
+				if(json.state == 2000){
+					alert("删除成功!");
+				} else {
+					alert("删除失败!");
+				}
+				showPageList();
+			}
+		});
+	}
+}
+
+
+function logout(){
+	let judge = confirm("是否要注销用户?");
+	if(judge == true){
+		$.ajax({
+			"url":"/users/logout",
+			"type":"get",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state == 2000){
+					alert("注销成功!");
+					location.href="/web/index.html";
+				}
+			}
+		});	
+	}
+}
+
+	
+
+</script>
+</html>

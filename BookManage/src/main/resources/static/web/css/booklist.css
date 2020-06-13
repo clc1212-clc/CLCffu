@@ -1,0 +1,103 @@
+@charset "UTF-8";
+.book-list {
+	font-color: red;
+	height: 1080px;
+}
+
+.whole-form {
+	width: 1000px;	
+	margin: 0 auto;
+}
+
+.book-table {
+	margin: 30px auto;
+	text-align: center;
+	border: 2px solid #CCCCCC;
+}
+
+.book-list-head {
+	font-size: 30px;
+	margin: 30px;
+}
+
+
+.table-list-head .book-no {
+	width: 65px;
+}
+
+.table-list-head .choose {
+	width: 25px;
+}
+
+.table-list-head th {
+	width: 170px;
+	height: 45px;
+	text-align:center;/** 设置水平方向居中 */
+    vertical-align:middle;/** 设置垂直方向居中 */
+    border: 1px solid #CCCCCC;
+}
+
+.book-table tr td {
+	height: 40px;
+	font-family: Fantasy ;
+	border: 1px solid #CCCCCC;
+}
+
+
+
+.submit-button {
+}
+
+.form-group {
+	margin: 0 auto;
+	width: 1000px;
+	height: 65px;
+	position: relative;
+}
+
+.form-group input {
+	border: 1px solid;
+	height: 50px;
+	text-align: center;
+}
+
+.form-group label {
+	margin: 0 20px 0 0;
+}
+.text-part1 {
+	width: 300px;
+	position: absolute;
+	left: 20%;
+}
+
+.text-part2 {
+	position: absolute;
+	left: 50%;
+	width: 500px;
+}
+
+.text-part3 {
+	width: 650px;
+	position: absolute;
+	left: 19%;
+}
+
+.my-input {
+	width: 470px;
+}
+
+.button-submit #button-submit{
+	width: 150px;
+}
+
+.button-submit{
+	width: 150px;
+	margin: 20px auto;
+}
+
+.book-title {
+	position: absolute;
+	left: 50%;
+	width: 500px;
+}
+

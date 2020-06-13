@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.book-list {
+	height: 1080px;
+}
+
+.book-table {
+	margin: 30px auto;
+	color: red;
+}
+
+.book-list-head {
+	font-size: 30px;
+	position: absolute;
+}
